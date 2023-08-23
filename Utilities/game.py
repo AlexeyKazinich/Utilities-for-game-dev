@@ -1,7 +1,7 @@
 import pygame
 
 class Game:
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
         self.screen_width = 800
         self.screen_height = 600
@@ -9,22 +9,21 @@ class Game:
         self.running = True
         self.clock = pygame.time.Clock()
      
-    def run(self):
+    def run(self) -> None:
+        """initial call to get the game to run"""
         while self.running:
             self.logic_checks()
             self.draw()
-            pygame.display.flip()
             self.clock.tick(60)
     
-    def draw(self):
+    def draw(self) -> None:
+        """draws everything to the screen"""
         self.screen.fill((255,255,255))
+        pygame.display.flip()
     
-    def logic_checks(self):
+    def logic_checks(self) -> None:
+        """runs all the game logic"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
                 pygame.quit()
-            
-        # Update the display
-        pygame.display.flip()
-        self.clock.tick(60)
