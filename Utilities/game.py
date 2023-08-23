@@ -10,24 +10,21 @@ class Game:
         self.clock = pygame.time.Clock()
      
     def run(self):
-        self.draw()
-        self.logic_checks()
-    
-    def draw(self):
-        pass
-    
-    def logic_checks(self):
         while self.running:
-            self.fps_counter.count_fps()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    pygame.quit()
-
-                    
+            self.logic_checks()
             self.draw()
-            self.logic()
-            
-            # Update the display
             pygame.display.flip()
             self.clock.tick(60)
+    
+    def draw(self):
+        self.screen.fill((255,255,255))
+    
+    def logic_checks(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                pygame.quit()
+            
+        # Update the display
+        pygame.display.flip()
+        self.clock.tick(60)
