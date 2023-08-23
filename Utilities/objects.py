@@ -69,8 +69,6 @@ class Button:
         self.confirmed = False
         self.hover = False
         
-        
-
 
     #checks if the button was pressed, sets the value to false to prevent the button from staying pressed
     def get_pressed(self) -> None:
