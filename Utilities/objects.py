@@ -1,4 +1,4 @@
-import pygame as pg
+import pygame
 
 class Rectangle:
     def __init__(self,
@@ -7,29 +7,29 @@ class Rectangle:
                  width,
                  height,
                  window, 
-                 color: pg.Color = pg.Color(255,255,255))-> None:
+                 color: pygame.Color = pygame.Color(255,255,255))-> None:
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.color = color
-        self.__rect = pg.Rect(x,y,width,height)
+        self.__rect = pygame.Rect(x,y,width,height)
         self.window = window
 
-    def set_color(self,color:pg.Color):
+    def set_color(self,color:pygame.Color):
         self.color = color
     
     def draw(self)-> None:
         """a filled rectangle"""
-        pg.draw.rect(self.window,self.color,(self.x,self.y,self.width,self.height))
+        pygame.draw.rect(self.window,self.color,(self.x,self.y,self.width,self.height))
     
     def draw_box(self)-> None:
         """an outline of a rectangle"""
-        pg.draw.rect(self.window,self.color,(self.x,self.y,self.width,self.height),2)
+        pygame.draw.rect(self.window,self.color,(self.x,self.y,self.width,self.height),2)
 
     def collidepoint(self,locations: tuple) -> bool:
         """checks if the coords passed are colliding with this box"""
-        self.__rect = pg.Rect(self.x,self.y,self.width,self.height)
+        self.__rect = pygame.Rect(self.x,self.y,self.width,self.height)
         if(self.__rect.collidepoint(locations)):
             return True
         else:
@@ -43,10 +43,10 @@ class Button:
                  height,
                  text,
                  window,
-                 color: pg.Color = pg.Color('lightskyblue3'),
-                 text_color: pg.Color = pg.Color('lightskyblue3'),
-                 hover_color: pg.Color = pg.Color('deepskyblue1'), 
-                 active_color: pg.Color = pg.Color('dodgerblue2')) -> None:
+                 color: pygame.Color = pygame.Color('lightskyblue3'),
+                 text_color: pygame.Color = pygame.Color('lightskyblue3'),
+                 hover_color: pygame.Color = pygame.Color('deepskyblue1'), 
+                 active_color: pygame.Color = pygame.Color('dodgerblue2')) -> None:
         self.x = x
         self.y = y
         self.width = width
@@ -59,7 +59,7 @@ class Button:
         self.hover_color = hover_color
         self.active_color = active_color
         self.deactive_color = self.color
-        self.font = pg.font.Font(None,32)
+        self.font = pygame.font.Font(None,32)
         self.__rectangle = Rectangle(self.x,self.y,self.width,self.height,self.window)
         self.__rectangle.set_color(self.color)
         
@@ -102,8 +102,8 @@ class Button:
         self.__rectangle.set_color(self.hover_color)
 
     def set_color(self,color)-> None:
-        self.color = pg.Color(color)
-        self.textColor = pg.Color(color)
+        self.color = pygame.Color(color)
+        self.textColor = pygame.Color(color)
 
 
     def collidepoint(self,locations) -> bool:
@@ -129,7 +129,7 @@ class Button:
         self.check_click()
     
     def check_click(self)-> None:
-        mouse_pos = pg.mouse.get_pos() #mouse pos
+        mouse_pos = pygame.mouse.get_pos() #mouse pos
         #if hovering
         if self.__rectangle.collidepoint(mouse_pos):
             self.hover = True
@@ -140,7 +140,7 @@ class Button:
             
         #if clicking while hovering
         if(self.hover):
-            if(pg.mouse.get_pressed()[0]):
+            if(pygame.mouse.get_pressed()[0]):
                 self.set_active()
                 self.pressed = True
             else: self.pressed = False
