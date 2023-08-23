@@ -1,7 +1,13 @@
 import pygame as pg
 
 class Rectangle:
-    def __init__(self,x,y,width,height,window, color: pg.Color = pg.Color(r=255,g=255,b=255,a=255))-> None:
+    def __init__(self,
+                 x,
+                 y,
+                 width,
+                 height,
+                 window, 
+                 color: pg.Color = pg.Color(255,255,255))-> None:
         self.x = x
         self.y = y
         self.width = width
@@ -30,7 +36,17 @@ class Rectangle:
             return False
 
 class Button:
-    def __init__(self,x,y,width,height,text,window,color: pg.Color = pg.Color('lightskyblue3'),text_color: pg.Color = pg.Color('lightskyblue3'), hover_color: pg.Color = pg.Color('deepskyblue1'), active_color: pg.Color = pg.Color('dodgerblue2'))-> None:
+    def __init__(self,
+                 x,
+                 y,
+                 width,
+                 height,
+                 text,
+                 window,
+                 color: pg.Color = pg.Color('lightskyblue3'),
+                 text_color: pg.Color = pg.Color('lightskyblue3'),
+                 hover_color: pg.Color = pg.Color('deepskyblue1'), 
+                 active_color: pg.Color = pg.Color('dodgerblue2')) -> None:
         self.x = x
         self.y = y
         self.width = width
@@ -44,7 +60,7 @@ class Button:
         self.active_color = active_color
         self.deactive_color = self.color
         self.font = pg.font.Font(None,32)
-        self.__rectangle = Rectangle(self.x,self.y,self.width,self.height,window)
+        self.__rectangle = Rectangle(self.x,self.y,self.width,self.height,self.window)
         self.__rectangle.set_color(self.color)
         
 
@@ -57,13 +73,20 @@ class Button:
 
 
     #checks if the button was pressed, sets the value to false to prevent the button from staying pressed
-    def get_pressed(self)-> None:
+    def get_pressed(self) -> None:
         temp = self.pressed
         self.pressed = False
         return temp
     
-    def center_of_screen_x(self):
+    def center_of_screen_x(self) -> None:
+        """center the button on the x axis"""
         self.x = (self.window.get_width() / 2) - (self.width / 2)
+        self.__rectangle.x = self.x
+    
+    def align_on_y_axis(self, position: int = 1, amount: int = 1) -> None:
+        """this will spread the buttons out evenly vertically"""
+        self.y = (self.window.get_height()*position / (amount +1)) - (self.height / 2)
+        self.__rectangle.y = self.y
         
     def set_active(self)-> None:
         self.color = self.active_color
