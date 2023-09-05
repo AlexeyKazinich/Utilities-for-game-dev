@@ -102,11 +102,13 @@ class Button:
         self.color = self.deactive_color
         self.text_color = self.deactive_color
         self.__rectangle.set_color(self.deactive_color)
+        self.hover = False
     
     def set_hover(self)-> None:
         self.color = self.hover_color
         self.text_color = self.hover_color
         self.__rectangle.set_color(self.hover_color)
+        self.hover = True
 
     def set_color(self,color)-> None:
         self.color = pygame.Color(color)
@@ -118,38 +120,34 @@ class Button:
             return True
         else:
             return False
-
-    def draw(self)-> None:
-        """draw the button"""
-        #render the current font
+            
         
-
+    def draw(self) -> None:
+        """draws the button"""
+        #render text
+        self.textRender = self.font.render(self.text,True,self.text_color)
+        
         #draw the outline
-        self.__rectangle.draw_box()
+        if self.show_background:
+            self.__rectangle.draw()
+        else:  
+            self.__rectangle.draw_box()
 
         #draw the text
         self.window.blit(self.textRender,(self.x+5,self.y+5))
     
-    def update(self) -> None:
-        """run this to draw the button as well as check for collisions"""
-        self.draw()
-        self.check_click()
-    
-    def check_click(self)-> None:
+    def logic_checks(self) -> None:
+        """does all the logic for the button"""
         mouse_pos = pygame.mouse.get_pos() #mouse pos
+        
         #if hovering
         if self.__rectangle.collidepoint(mouse_pos):
-            self.hover = True
             self.set_hover()
-        else: 
-            self.hover = False
-            self.set_deactive()
-            
-        #if clicking while hovering
-        if(self.hover):
             if(pygame.mouse.get_pressed()[0]):
                 self.set_active()
                 self.pressed = True
                 if self.onclick_func is not None:
                     self.onclick_func()
-            else: self.pressed = False
+                else: self.pressed = False
+        else: 
+            self.set_deactive()
