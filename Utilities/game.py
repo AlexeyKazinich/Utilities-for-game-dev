@@ -1,5 +1,5 @@
 import pygame
-
+#comment
 class Game:
     def __init__(self) -> None:
         pygame.init()
