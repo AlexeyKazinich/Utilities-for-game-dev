@@ -1,5 +1,5 @@
+from typing import Callable
 import pygame
-
 class Rectangle:
     def __init__(self,
                  x,
@@ -39,29 +39,36 @@ class Button:
     def __init__(self,
                  x,
                  y,
-                 width,
-                 height,
                  text,
                  window,
                  color: pygame.Color = pygame.Color('lightskyblue3'),
                  text_color: pygame.Color = pygame.Color('lightskyblue3'),
                  hover_color: pygame.Color = pygame.Color('deepskyblue1'), 
-                 active_color: pygame.Color = pygame.Color('dodgerblue2')) -> None:
+                 active_color: pygame.Color = pygame.Color('dodgerblue2'),
+                 show_background: bool = False,
+                 onclick_func: Callable = None) -> None:
+        
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
         self.window = window
-            
+        
         self.text = text
         self.color = color
         self.text_color = text_color
         self.hover_color = hover_color
         self.active_color = active_color
         self.deactive_color = self.color
+        
         self.font = pygame.font.Font(None,32)
+        self.textRender = self.font.render(self.text,True,self.text_color)
+        self.width = self.textRender.get_width() + 10
+        self.height = self.textRender.get_height() + 10
+            
         self.__rectangle = Rectangle(self.x,self.y,self.width,self.height,self.window)
         self.__rectangle.set_color(self.color)
+        
+        self.show_background = show_background
+        self.onclick_func = onclick_func
         
 
         #mouse events
@@ -115,7 +122,7 @@ class Button:
     def draw(self)-> None:
         """draw the button"""
         #render the current font
-        self.textRender = self.font.render(self.text,True,self.text_color)
+        
 
         #draw the outline
         self.__rectangle.draw_box()
@@ -143,4 +150,6 @@ class Button:
             if(pygame.mouse.get_pressed()[0]):
                 self.set_active()
                 self.pressed = True
+                if self.onclick_func is not None:
+                    self.onclick_func()
             else: self.pressed = False
