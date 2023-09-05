@@ -1,26 +1,18 @@
 import pygame
 from objects import Rectangle
-from entity import Entity, AnimatedEntity
 
 NEIGHBOR_OFFSETS = [(-1,0), (-1,-1), (0,-1), (1,-1), (1,0), (0,0), (-1,1),(0,1),(1,1)]
 
 class Tile:
-    def __init__(self,screen: pygame.display, pos: tuple,tile_size: int = 16,entity: Entity or AnimatedEntity = None):
-        self.entity = entity
+    def __init__(self,screen: pygame.display, pos: tuple,tile_size: int = 16):
         self.tile_size = tile_size
         self.pos = pos
         self.screen = screen
-        
-        if self.entity is None:
-            self.rect = Rectangle(pos[0]*self.tile_size,pos[1]*self.tile_size,tile_size,tile_size,screen,pygame.Color(255,0,0,255))
+        self.rect = Rectangle(pos[0]*self.tile_size,pos[1]*self.tile_size,tile_size,tile_size,screen,pygame.Color(255,0,0,255))
         
     def draw(self,offset:tuple = (0,0)):
-        if self.entity is None:
-            self.rect = Rectangle((self.pos[0] + offset[0])*self.tile_size,(self.pos[1]+offset[1])*self.tile_size,self.tile_size,self.tile_size,self.screen,pygame.Color(255,0,0,255))
-            self.rect.draw()
-        
-        else: 
-            self.entity.draw()
+        self.rect = Rectangle((self.pos[0] + offset[0])*self.tile_size,(self.pos[1]+offset[1])*self.tile_size,self.tile_size,self.tile_size,self.screen,pygame.Color(255,0,0,255))
+        self.rect.draw_box()
         
 
 class Tilemap:
