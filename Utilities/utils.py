@@ -4,7 +4,7 @@ import os
 
 
 def load_image(path: str = "",colorkey: tuple = (0,0,0)) -> pygame.Surface:
-    img = pygame.image.load(path).convert()
+    img = pygame.image.load(path)
     img.set_colorkey(colorkey)
     return img
 

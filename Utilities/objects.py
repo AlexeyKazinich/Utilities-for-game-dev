@@ -31,9 +31,10 @@ class Rectangle:
     def collidepoint(self,locations: tuple) -> bool:
         """checks if the coords passed are colliding with this box"""
         self.__rect = pygame.Rect(self.x,self.y,self.width,self.height)
-        return (self.__rect.collidepoint(locations))
+        return (self.__rect.collidepoint(locations))   
 
-class Button:
+class RectButton:
+    """a regular rectangular button that is drawn to the screen"""
     def __init__(self,
                  x,
                  y,
@@ -42,7 +43,6 @@ class Button:
                  border_color: pygame.Color = pygame.Color('lightskyblue3'),
                  hover_color: pygame.Color = pygame.Color('deepskyblue1'), 
                  pressed_color: pygame.Color = pygame.Color('dodgerblue2'),
-                 show_background: bool = False,
                  onclick_func: Callable = None) -> None:
         
         self.x = x
@@ -51,11 +51,7 @@ class Button:
         
         self.text = text
         self.color = border_color
-        
-        if not show_background:
-            self.text_color = border_color
-        else:
-            self.text_color = (0,0,0)
+        self.text_color = (0,0,0)
         
         self.hover_color = hover_color
         self.active_color = pressed_color
@@ -70,7 +66,6 @@ class Button:
         self.__rectangle = Rectangle(self.x,self.y,self.width,self.height,self.window)
         self.__rectangle.set_color(self.color)
         
-        self.show_background = show_background
         self.onclick_func = onclick_func
         
 
@@ -134,10 +129,7 @@ class Button:
         self.textRender = self.font.render(self.text,True,self.text_color)
         
         #draw the outline
-        if self.show_background:
-            self.__rectangle.draw()
-        else:  
-            self.__rectangle.draw_box()
+        self.__rectangle.draw_box()
 
         #draw the text
         self.window.blit(self.textRender,(self.x+5,self.y+5))
@@ -159,3 +151,57 @@ class Button:
                 else: self.pressed = False
         else: 
             self.set_deactive()
+            
+
+
+
+    
+class TexturedButton:
+    """button with an image"""
+    def __init__(self, image, window, on_click_func: Callable=None):
+        self.image = image
+        self.x = 15
+        self.y = 15
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+        self.image_original_size = (self.image.get_width(),self.image.get_height())
+        self.window = window
+        self.onclick_func = on_click_func
+        self.rectangle = Rectangle(self.x,self.y,self.width,self.height,self.window)
+        
+        self.pressed = False
+        self.hover = False 
+        
+    def set_active(self):
+        self.image = pygame.transform.scale(self.image,(min(self.width*2,self.width + 1),min(self.height*2,self.height + 1)))
+
+    
+    def set_deactive(self):
+        self.image = pygame.transform.scale(self.image,(self.width,self.height))
+    
+    def draw(self):
+        self.window.blit(self.image,(self.x,self.y))
+        
+        if self.hover:
+            print(self.hover)
+        else:
+            print(self.hover)
+    
+    def logic_checks(self) -> None:
+        """does all the logic for the button"""
+        mouse_pos = pygame.mouse.get_pos() #mouse pos
+        
+        #if hovering
+        if self.rectangle.collidepoint(mouse_pos):
+            self.hover = True            
+            #if pressing
+            if(pygame.mouse.get_pressed()[0]):
+                self.pressed = True
+                self.set_active()
+                if self.onclick_func is not None:
+                    self.onclick_func()
+                else: self.pressed = False
+        else:
+            self.hover = False
+            self.set_deactive()
+
