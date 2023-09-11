@@ -1,0 +1,16 @@
+Things that need to be done and an outline of how things will be structured 
+
+
+UIElements.py: This file will hold everything regarding UI elements, such as buttons, sliders, textboxes
+
+GAME_INFO.py: this will have one class that will have a static method that will take the display as a parameter and will return information about the screen, SUCH AS: horizontal halfway, vertical halfway, fonts, and the center of the screen. Any game variable can go here
+
+Objects.py: This file will hold supporting things for the other files, such as shapes. Rectangle is one of them and it will be used to draw buttons
+
+Entity.py: This file will hold entities, those being: regular 1 frame static entities, animation entities, physics entities, and collidable entities (static or not)
+
+Screens.py: This file will have a screen manager, this manager is designed to manage the states of the game: main menu, game, settings screen etc... This file will also have a game screen, and a static screen that can be used to create other screens like the main menu or pause screen
+
+Tilemap.py: This file will have a tilemap that the game screen will use, also there will be a Editor class that can be run to create a tilemap with an editor 
+
+Utils.py: This file will have different utility for the game, such as an fps counter
