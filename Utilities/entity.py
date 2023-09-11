@@ -20,3 +20,15 @@ class AnimatedEntity(Entity):
     
     def draw(self):
         pass
+    
+class PhysicsEntity(Entity):
+    def __init__(self):
+        pass
+    
+class CollidablePhysicsEntity(Entity):
+    def __init__(self):
+        pass
+
+class CollidableEntity(Entity):
+    def __init__(self):
+        pass
