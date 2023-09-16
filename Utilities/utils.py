@@ -1,6 +1,7 @@
 import pygame
 import os
 import time
+import math
 
 
 def load_image(path: str = "",colorkey: tuple = (0,0,0)) -> pygame.Surface:
